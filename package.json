@@ -1,0 +1,26 @@
+{
+  "name": "claimflow-ai",
+  "version": "1.0.0",
+  "description": "ClaimFlow AI — Mid-Size Hospital Cashless Insurance Claims & TPA Workspace",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build:server": "npm --prefix server run build",
+    "build:client": "npm --prefix client run build",
+    "build": "npm run build:server && npm run build:client",
+    "seed": "npm --prefix server run seed",
+    "test": "npm --prefix server test",
+    "test:coverage": "npm --prefix server run test:coverage"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "author": "ClaimFlow AI Engineering Team",
+  "license": "MIT"
+}
