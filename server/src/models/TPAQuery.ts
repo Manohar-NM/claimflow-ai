@@ -73,3 +73,4 @@ TPAQuerySchema.index({ claimId: 1, status: 1 });
 TPAQuerySchema.index({ status: 1, deadline: 1 });
 
 export const TPAQuery = mongoose.model<ITPAQuery>('TPAQuery', TPAQuerySchema);
+

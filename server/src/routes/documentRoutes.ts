@@ -9,8 +9,8 @@ router.use(authenticateJWT);
 
 router.post(
   '/upload',
-  requireRole('HOSPITAL_STAFF'),
   upload.single('file'),
+  requireRole('HOSPITAL_STAFF'),
   DocumentController.uploadDocument
 );
 
@@ -18,3 +18,4 @@ router.get('/:id/file', DocumentController.getDocumentFile);
 router.delete('/:id', requireRole('HOSPITAL_STAFF'), DocumentController.deleteDocument);
 
 export default router;
+

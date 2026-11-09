@@ -98,3 +98,4 @@ describe('Authentication Module Tests', () => {
     expect(res.body.message).toContain('deactivated');
   });
 });
+

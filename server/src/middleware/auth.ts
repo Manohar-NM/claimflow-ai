@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/index.js';
@@ -49,6 +50,13 @@ export const requireRole = (allowedRoles: UserRole | UserRole[]) => {
     }
 
     if (!roles.includes(req.user.role)) {
+      if ((req as any).file?.path && fs.existsSync((req as any).file.path)) {
+        try {
+          fs.unlinkSync((req as any).file.path);
+        } catch {
+          // ignore cleanup error
+        }
+      }
       res.status(403).json({
         success: false,
         message: `Forbidden: Access restricted to role(s) [${roles.join(', ')}]`,
@@ -59,3 +67,4 @@ export const requireRole = (allowedRoles: UserRole | UserRole[]) => {
     next();
   };
 };
+

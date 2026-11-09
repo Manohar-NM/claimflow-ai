@@ -15,7 +15,7 @@ export interface IAIExtraction {
   };
   warnings: string[];
   requiresManualReview: boolean;
-  processingStatus: 'PENDING' | 'COMPLETED' | 'FAILED';
+  processingStatus: 'PENDING' | 'COMPLETED' | 'FAILED' | 'UNAVAILABLE';
   errorMessage?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -41,6 +41,7 @@ const AIExtractionSchema = new Schema<IAIExtraction>(
     extractedFields: {
       type: Schema.Types.Mixed,
       required: true,
+      default: {},
     },
     validationResults: {
       isValid: { type: Boolean, default: true },
@@ -56,7 +57,7 @@ const AIExtractionSchema = new Schema<IAIExtraction>(
     },
     processingStatus: {
       type: String,
-      enum: ['PENDING', 'COMPLETED', 'FAILED'],
+      enum: ['PENDING', 'COMPLETED', 'FAILED', 'UNAVAILABLE'],
       default: 'PENDING',
       index: true,
     },

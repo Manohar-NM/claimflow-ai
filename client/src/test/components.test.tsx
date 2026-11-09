@@ -60,3 +60,4 @@ describe('Frontend Component Tests', () => {
     expect(screen.getByPlaceholderText('••••••••••••')).toBeInTheDocument();
   });
 });
+

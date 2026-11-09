@@ -24,3 +24,4 @@ export const documentsApi = {
     return `/api/documents/${documentId}/file`;
   },
 };
+

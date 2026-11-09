@@ -16,49 +16,53 @@ export const runSeed = async (shouldDisconnect = false) => {
     console.log('[Seed] Connecting to database...');
     await connectDB();
 
-    console.log('[Seed] Clearing existing collections...');
-    await Promise.all([
-      User.deleteMany({}),
-      Claim.deleteMany({}),
-      Document.deleteMany({}),
-      AIExtraction.deleteMany({}),
-      TPAQuery.deleteMany({}),
-      AuditLog.deleteMany({}),
-    ]);
-
     // Ensure uploads directory exists and sample dummy files exist
     if (!fs.existsSync(config.uploadDir)) {
       fs.mkdirSync(config.uploadDir, { recursive: true });
     }
 
     const sampleDocPath = path.join(config.uploadDir, 'demo-admission-summary.pdf');
-    fs.writeFileSync(
-      sampleDocPath,
-      '%PDF-1.4\n1 0 obj\n<< /Title (Demo Discharge Summary) /Author (City Care Hospital) >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF'
-    );
+    if (!fs.existsSync(sampleDocPath)) {
+      fs.writeFileSync(
+        sampleDocPath,
+        '%PDF-1.4\n1 0 obj\n<< /Title (Demo Discharge Summary) /Author (City Care Hospital) >>\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF'
+      );
+    }
 
-    console.log('[Seed] Seeding demo users...');
+    console.log('[Seed] Checking demo users (idempotent)...');
     const salt = await bcrypt.genSalt(10);
     const hospitalPasswordHash = await bcrypt.hash('HospitalStaff@2026!', salt);
     const tpaPasswordHash = await bcrypt.hash('TPAManager@2026!', salt);
 
-    const hospitalUser = await User.create({
-      name: 'Dr. Priya Sharma (Billing Lead)',
-      email: 'hospital@claimflow.demo',
-      passwordHash: hospitalPasswordHash,
-      role: 'HOSPITAL_STAFF',
-      organization: 'City Care Multispecialty Hospital',
-      isActive: true,
-    });
+    let hospitalUser = await User.findOne({ email: 'hospital@claimflow.demo' });
+    if (!hospitalUser) {
+      hospitalUser = await User.create({
+        name: 'Dr. Priya Sharma (Billing Lead)',
+        email: 'hospital@claimflow.demo',
+        passwordHash: hospitalPasswordHash,
+        role: 'HOSPITAL_STAFF',
+        organization: 'City Care Multispecialty Hospital',
+        isActive: true,
+      });
+      console.log(`[Seed] Created hospital user: ${hospitalUser.email}`);
+    } else {
+      console.log(`[Seed] Hospital user already exists: ${hospitalUser.email}`);
+    }
 
-    const tpaUser = await User.create({
-      name: 'Rajesh Verma (Senior Adjudicator)',
-      email: 'tpa@claimflow.demo',
-      passwordHash: tpaPasswordHash,
-      role: 'TPA_MANAGER',
-      organization: 'HealthGuard TPA Services',
-      isActive: true,
-    });
+    let tpaUser = await User.findOne({ email: 'tpa@claimflow.demo' });
+    if (!tpaUser) {
+      tpaUser = await User.create({
+        name: 'Rajesh Verma (Senior Adjudicator)',
+        email: 'tpa@claimflow.demo',
+        passwordHash: tpaPasswordHash,
+        role: 'TPA_MANAGER',
+        organization: 'HealthGuard TPA Services',
+        isActive: true,
+      });
+      console.log(`[Seed] Created TPA user: ${tpaUser.email}`);
+    } else {
+      console.log(`[Seed] TPA user already exists: ${tpaUser.email}`);
+    }
 
     console.log(`[Seed] Created users: ${hospitalUser.email}, ${tpaUser.email}`);
 
@@ -576,8 +580,18 @@ export const runSeed = async (shouldDisconnect = false) => {
     ];
 
     console.log('[Seed] Inserting claims and creating associated documents, AI extractions, and queries...');
+    let insertedCount = 0;
+    let skippedCount = 0;
+
     for (const claimData of sampleClaimsData) {
+      const existing = await Claim.findOne({ claimId: claimData.claimId });
+      if (existing) {
+        skippedCount++;
+        continue;
+      }
+
       const claim = await Claim.create(claimData);
+      insertedCount++;
 
       // Create sample document
       const doc = await Document.create({
@@ -725,7 +739,7 @@ export const runSeed = async (shouldDisconnect = false) => {
       }
     }
 
-    console.log('✅ [Seed] Successfully seeded 2 demo users and 12 realistic cashless claims!');
+    console.log(`✅ [Seed] Done! Inserted ${insertedCount} claims, skipped ${skippedCount} existing claims.`);
     console.log('------------------------------------------------------------');
     console.log('Demo Credentials:');
     console.log('Hospital Staff: hospital@claimflow.demo / HospitalStaff@2026!');
@@ -742,7 +756,7 @@ export const runSeed = async (shouldDisconnect = false) => {
 };
 
 // Execute if run directly
-if (process.argv[1] && process.argv[1].endsWith('seed.ts')) {
+if (process.argv[1] && (/seed\.(ts|js)$/i.test(process.argv[1]) || process.argv[1].endsWith('seed.ts'))) {
   runSeed(true)
     .then(() => process.exit(0))
     .catch(() => process.exit(1));

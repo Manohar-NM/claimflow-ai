@@ -24,3 +24,4 @@ router.get('/me', authenticateJWT, AuthController.me);
 router.get('/demo-accounts', AuthController.getDemoAccounts);
 
 export default router;
+

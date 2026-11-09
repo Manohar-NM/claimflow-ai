@@ -144,3 +144,4 @@ ClaimSchema.index({ status: 1, tpaProvider: 1, createdAt: -1 });
 ClaimSchema.index({ 'patientDetails.name': 'text', claimId: 'text', 'insuranceDetails.policyNumber': 'text' });
 
 export const Claim = mongoose.model<IClaim>('Claim', ClaimSchema);
+

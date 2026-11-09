@@ -1,6 +1,9 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
+// Load environment variables prioritizing server/.env across both root and server execution paths
+const serverEnvPath = path.resolve(process.cwd(), 'server/.env');
+dotenv.config({ path: serverEnvPath });
 dotenv.config();
 
 export const config = {
@@ -14,8 +17,9 @@ export const config = {
   maxFileSizeMB: parseInt(process.env.MAX_FILE_SIZE_MB || '15', 10),
   aiProvider: (process.env.AI_PROVIDER || 'gemini').toLowerCase(),
   geminiApiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_GENAI_API_KEY || '',
-  geminiModel: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+  geminiModel: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
   openaiApiKey: process.env.OPENAI_API_KEY || '',
   openaiModel: process.env.OPENAI_MODEL || 'gpt-4o-mini',
   confidenceThreshold: 0.80,
 };
+

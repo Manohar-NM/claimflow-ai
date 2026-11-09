@@ -10,3 +10,4 @@ router.get('/hospital', requireRole('HOSPITAL_STAFF'), DashboardController.getHo
 router.get('/tpa', requireRole('TPA_MANAGER'), DashboardController.getTPAMetrics);
 
 export default router;
+

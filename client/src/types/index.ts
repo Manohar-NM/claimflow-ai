@@ -164,7 +164,7 @@ export interface AIExtraction {
   };
   warnings: string[];
   requiresManualReview: boolean;
-  processingStatus: 'PENDING' | 'COMPLETED' | 'FAILED';
+  processingStatus: 'PENDING' | 'COMPLETED' | 'FAILED' | 'UNAVAILABLE';
   errorMessage?: string;
   createdAt: string;
   updatedAt: string;
@@ -211,3 +211,4 @@ export interface FinancialValidation {
   warnings: string[];
   errors: string[];
 }
+

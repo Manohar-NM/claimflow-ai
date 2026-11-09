@@ -83,7 +83,7 @@ flowchart TB
 - **Database (MongoDB Atlas with Mongoose)**:
   - Flexible document model perfectly accommodates varied clinical document extractions, nested financial breakdowns, dynamic bill components, and multi-turn query timelines without brittle relational schema migrations.
   - Compound indexes on `claimId`, `status`, `tpaProvider`, and `createdAt` ensure sub-millisecond query responses.
-- **AI Integration (Gemini 2.5/Flash / OpenAI with Structured Output)**:
+- **AI Integration (Google Gemini 3.5 Flash Lite / OpenAI with Structured Output)**:
   - Strict JSON schema enforcement eliminates parser hallucinations.
   - Document text extracted via deterministic PDF text parsers is analyzed alongside clinical guidelines for ICD-10 and CPT coding.
   - Dual-layer confidence engine prevents hallucinated LLM confidence from bypassing human oversight.
@@ -336,3 +336,4 @@ All financial figures are strictly calculated and stored in **Indian National Ru
   - Direct ABDM (Ayushman Bharat Digital Mission) FHIR API integration for digital health records.
   - Real-time WebSockets / SSE for push notifications on query deadlines.
   - Multi-hospital multi-tenancy with hospital administrator management.
+

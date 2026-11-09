@@ -57,7 +57,7 @@ Mid-size hospitals process hundreds of cashless insurance claims monthly across 
 - **Validation**: Zod runtime schema enforcement
 - **Database & ODM**: MongoDB Atlas, Mongoose v8
 - **Document Text Extraction**: `pdf-parse` (deterministic PDF parser)
-- **AI Extraction Engine**: Google Gemini API (`gemini-2.5-flash`) / OpenAI (`gpt-4o-mini`)
+- **AI Extraction Engine**: Google Gemini API (`gemini-3.5-flash-lite`) / OpenAI (`gpt-4o-mini`)
 - **Testing**: Vitest, Supertest, MongoMemoryServer
 
 ---
@@ -173,3 +173,4 @@ The seed script (`npm run seed`) populates:
 
 ## 10. License
 ClaimFlow AI is open-source software licensed under the [MIT License](LICENSE).
+

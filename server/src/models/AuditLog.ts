@@ -63,3 +63,4 @@ const AuditLogSchema = new Schema<IAuditLog>(
 AuditLogSchema.index({ claimId: 1, timestamp: -1 });
 
 export const AuditLog = mongoose.model<IAuditLog>('AuditLog', AuditLogSchema);
+

@@ -10,3 +10,4 @@ router.get('/recent', AuditController.getRecentActivity);
 router.get('/claim/:claimId', AuditController.getLogsByClaim);
 
 export default router;
+

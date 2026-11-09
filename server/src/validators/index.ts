@@ -58,6 +58,7 @@ export const createClaimSchema = z.object({
 export const updateClaimSchema = createClaimSchema.partial();
 
 export const createQuerySchema = z.object({
+  claimId: z.string().min(1, 'Claim ID is required'),
   queryText: z.string().min(5, 'Query text must be at least 5 characters'),
   deadline: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: 'Invalid deadline date format',

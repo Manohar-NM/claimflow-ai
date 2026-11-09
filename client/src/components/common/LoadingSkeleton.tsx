@@ -12,3 +12,4 @@ export const LoadingSkeleton: React.FC<{ rows?: number }> = ({ rows = 5 }) => {
     </div>
   );
 };
+

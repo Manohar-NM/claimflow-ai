@@ -308,7 +308,12 @@ Return ONLY valid JSON. No markdown backticks, no explanations.`;
       // Parse JSON safely
       let parsedOutput: Partial<ExtractedFieldsPayload>;
       try {
-        const cleaned = rawJsonString.replace(/^```json/g, '').replace(/```$/g, '').trim();
+        let cleaned = rawJsonString.trim();
+        if (cleaned.startsWith('```json')) {
+          cleaned = cleaned.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+        } else if (cleaned.startsWith('```')) {
+          cleaned = cleaned.replace(/^```\s*/i, '').replace(/\s*```$/i, '').trim();
+        }
         parsedOutput = JSON.parse(cleaned);
       } catch (parseErr) {
         console.error('[AIService] Failed to parse model output:', rawJsonString);
@@ -352,3 +357,4 @@ Return ONLY valid JSON. No markdown backticks, no explanations.`;
     }
   }
 }
+

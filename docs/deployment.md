@@ -68,7 +68,7 @@ CLIENT_URL=http://localhost:5173
 # AI Extraction Provider (gemini or openai)
 AI_PROVIDER=gemini
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
+GEMINI_MODEL=gemini-3.5-flash-lite
 
 # Document Upload Limits
 UPLOAD_DIR=uploads
@@ -172,3 +172,4 @@ npm run test:coverage
   - The application enters a graceful `AI_SERVICE_UNAVAILABLE` fallback mode. It explicitly notifies the user that external AI extraction is unconfigured, displays an intuitive warning badge, and opens the manual verification interface without halting the claim progression.
 - **Q: How does the AI uncertainty threshold work?**
   - Fields extracted by the LLM are evaluated using deterministic heuristic scoring. If the calibrated confidence is below `0.80`, the field is marked in yellow as uncertain and requires human staff verification and reason entry before the claim can be submitted.
+

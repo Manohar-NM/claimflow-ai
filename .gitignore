@@ -4,14 +4,19 @@ node_modules/
 
 # Environment files
 .env
-.env.local
-.env.*.local
+.env.*
 *.env
+**/.env
+**/.env.*
+server/.env
+client/.env
 
 # Build outputs
 dist/
 build/
 .output/
+client/dist/
+server/dist/
 
 # Logs
 npm-debug.log*
@@ -23,8 +28,6 @@ pnpm-debug.log*
 # Uploaded documents & cache
 uploads/
 server/uploads/
-client/dist/
-server/dist/
 
 # Operating System files
 .DS_Store
@@ -39,3 +42,8 @@ Thumbs.db
 # Test coverage
 coverage/
 .nyc_output/
+
+# Archive files
+*.zip
+*.tar.gz
+

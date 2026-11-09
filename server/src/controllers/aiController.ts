@@ -131,6 +131,9 @@ export class AIController {
         return;
       }
 
+      if (!extraction.extractedFields) {
+        extraction.extractedFields = {} as any;
+      }
       const extractedFields = extraction.extractedFields as Record<string, any>;
       const originalFieldObj = extractedFields[fieldName] || {};
       const originalValue = originalFieldObj.value ?? null;
@@ -220,3 +223,4 @@ export class AIController {
     }
   }
 }
+

@@ -170,3 +170,4 @@ describe('Claims Lifecycle & Validation Tests', () => {
     expect(reviewToQuery.allowed).toBe(true);
   });
 });
+
